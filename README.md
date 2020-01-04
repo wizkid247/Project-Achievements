@@ -1,8 +1,5 @@
 # Project-Achievements
-The following projects are my most recent notable programs completed through my degree program. Enjoy!!
+Java Exception and Security Project: Apply object-oriented and exception techniques to the assigned problems
 
 
-API Branch: REST API with MongoDB
-
-
-Exception Branch: Java Exception and Security Project
+Using object-oriented programming techniques and exception handling to implement a Greensboro Theater Management System for the tickets to “Downton Abbey”. The Greensboro theater has 50 seats and each seat has a number associated with it. On November 15 the theater will have two shows: one will be at 10:00AM and the other will be at 8:00 PM
