@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Class</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        /************************************************************************************************************/
+        function findIt() {
+            var cTitle = $('#classTitle').val();
+            var cId = $('#classId').val();
+            $.ajax({
+                url: "/yellock/class",
+                data: {
+                    classTitle: cTitle,
+                    classId: cId
+                },
+                success: function (data) {
+                    if(data.length === 0){
+                        alert("Nothing to find");
+                    }else {
+                        var output = '<div>';
+                        $.each(data, function (key, data) {
+                            output += '<div>';
+                            output += '<h1>' + data.classTitle + '</h1>';
+                            output += '<p>' + data.classId + '</p>';
+                            output += '<p>' + data.classSch + '</p>';
+                            output += '<p>' + data.classDes + '</p>';
+                            output += '<p>' + data.classCred + '</p>';
+                            output += '</div>';
+                        });
+                        output += '</div>' + '<br>';
+                        $('#findOut').html(output);
+                        console.log(data);
+                    }
+                },
+                error: function (xhr, error) {
+                    console.log("wrong");
+                    console.debug(xhr);
+                    console.debug(error);
+                }
+            });
+        }
+
+        /************************************************************************************************************/
+        function addIt() {
+            var cTitle = $('#classTitle').val();
+            var cId = $('#classId').val();
+            var cSch = $('#classSch').val();
+            var cDes = $('#classDes').val();
+            var cCred = $('#classCred').val();
+            var classInfo = {
+                classTitle: cTitle,
+                classId: cId,
+                classSch: cSch,
+                classDes: cDes,
+                classCred: cCred
+            };
+            $.ajax({
+                method: "POST",
+                url: "/yellock/class",
+                data: classInfo,
+                dataType:"json",
+                success: function (data) {
+                    data = JSON.stringify(data);
+                    console.log(data);
+                    alert("Add Successful");
+                },
+                error: function (xhr, error) {
+                    console.debug(xhr);
+                    console.debug(error);
+                }
+            });
+        }
+
+        /************************************************************************************************************/
+        function updIt() {
+            var cTitle = $('#classTitle').val();
+            var cId = $('#classId').val();
+            var cSch = $('#classSch').val();
+            var cDes = $('#classDes').val();
+            var cCred = $('#classCred').val();
+            var classInfo = {
+                classTitle: cTitle,
+                classId: cId,
+                classSch: cSch,
+                classDes: cDes,
+                classCred: cCred
+            };
+            $.ajax({
+                method: "PUT",
+                url: "/yellock/class",
+                data: classInfo,
+                success: function (data) {
+                    if(data.length === 0){
+                        alert("Nothing to Update");
+                    }else {
+                        console.log(data);
+                        alert("Update Successful");
+                    }
+                },
+
+                error: function (xhr, error) {
+                    console.debug(xhr);
+                    console.debug(error);
+                }
+            });
+        }
+
+        /************************************************************************************************************/
+        function removeIt() {
+            var cTitle = $('#classTitle').val();
+            $.ajax({
+                method: "DELETE",
+                url: "/yellock/class",
+                data: {
+                    classTitle: cTitle,
+                },
+                dataType: "json",
+                success: function (data) {
+                    data = JSON.stringify(data);
+                    console.log(data);
+                    alert("Deletion Successful");
+                },
+                error: function (xhr, error) {
+                    console.debug(xhr);
+                    console.debug(error);
+                }
+            });
+        }
+
+        /************************************************************************************************************/
+    </script>
+
+    <style type="text/css">
+        label {
+            display: inline-block;
+            float: left;
+            clear: left;
+            width: 325px;
+            text-align: right;
+        }
+    </style>
+
+</head>
+<body>
+<div style="border-style:solid" ; style="height:700px">
+    <form id="classInfo">
+        <label style="font-weight: bold; font-size: 40px; color: darkblue"> Class Info! </label>
+        <br><br><br><br>
+        <label>Class title:</label><input type="text" id="classTitle">
+        <br><br>
+        <label>Class ID:</label><input type="text" id="classId">
+        <br><br>
+        <label>Class schedule:</label><input type="text" id="classSch">
+        <br><br>
+        <label>Class description:</label><textarea rows=10 cols="50" type="text" id="classDes"></textarea>
+        <br><br>
+        <label>Class credit:</label><input style="width:45px" min="1" max="4" type="number" id="classCred">
+        <br><br><br>
+        <label>
+            <input type="button" value="Add" onclick="addIt()">
+            <input type="button" value="Find" onclick="findIt()">
+            <input type="button" value="Update" onclick="updIt()">
+            <input type="button" value="Delete" onclick="removeIt()">
+        </label>
+        <br><br><br>
+
+
+        <div id="findOut" style="background:lightgray"></div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

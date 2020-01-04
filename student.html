@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="Yellock.js"></script>
+    <script>
+        function findIt() {
+            var sName = $('#first').val();
+            var sId = $('#idNum').val();
+            $.ajax({
+                url: "/yellock/student",
+                data: {
+                    studentName: sName,
+                    studentId: sId
+                },
+                success: function (data) {
+                    var output = '<div>';
+                    $.each(data, function (key, data) {
+                        output += '<div>';
+                        output += '<h1>' + data.studentName + '</h1>';
+                        output += '<p>' + data.studentLast + '</p>';
+                        output += '<p>' + data.studentId + '</p>';
+                        output += '<p>' + data.mailAddy + '</p>';
+                        output += '<p>' + data.phoneNum + '</p>';
+                        output += '<p>' + data.studentEmail + '</p>';
+                        output += '</div>';
+                    });
+                    output += '</div>' + '<br>';
+                    $('#findOut').html(output);
+                    console.log(data);
+                },
+                error: function (xhr, error) {
+                    console.log("wrong");
+                    console.debug(xhr);
+                    console.debug(error);
+                }
+            });
+        }
+
+        /************************************************************************************************************/
+        function addIt() {
+            var sName = $('#first').val();
+            var sLast = $('#last').val();
+            var sId = $('#idNum').val();
+            var mailing = $('#addy').val();
+            var phoneNum = $('#tele').val();
+            var email = $('#mail').val();
+            var studentInfo = {
+                studentName: sName,
+                studentLast: sLast,
+                studentId: sId,
+                mailAddy: mailing,
+                phoneNum: phoneNum,
+                studentEmail: email
+            };
+            $.ajax({
+                method: "POST",
+                url: "/yellock/student",
+                data: studentInfo,
+                dataType:"json",
+                success: function (data) {
+                    data = JSON.stringify(data);
+                    console.log(data);
+                    alert("Add Successful");
+
+                },
+                error: function (res,code,msg) {
+                    alert("Already exist in the Database");
+
+                }
+            });
+        }
+
+        /************************************************************************************************************/
+        function updIt() {
+            var sName = $('#first').val();
+            var sLast = $('#last').val();
+            var sId = $('#idNum').val();
+            var mailing = $('#addy').val();
+            var phoneNum = $('#tele').val();
+            var email = $('#mail').val();
+            var studentInfo = {
+                studentName: sName,
+                studentLast: sLast,
+                studentId: sId,
+                mailAddy: mailing,
+                phoneNum: phoneNum,
+                studentEmail: email
+            };
+            $.ajax({
+                method: "PUT",
+                url: "/yellock/student",
+                data: studentInfo,
+                dataType: "json",
+                success: function (data) {
+                    data = JSON.stringify(data);
+                    console.log(data);
+                    alert("Update Successful");
+                },
+                error: function (xhr, error) {
+                    console.debug(xhr);
+                    console.debug(error);
+                }
+            });
+        }
+
+        /************************************************************************************************************/
+        function removeIt() {
+            var sName = $('#first').val();
+            var sId = $('#idNum').val();
+            $.ajax({
+                method: "DELETE",
+                url: "/yellock/student",
+                data: {
+                    studentName:sName,
+                    studentId: sId
+                },
+                success: function (data) {
+                    data = JSON.stringify(data);
+                    console.log(data);
+                    alert("Deletion Successful");
+                },
+                error: function (xhr, error) {
+                    console.debug(xhr);
+                    console.debug(error);
+                }
+            });
+        }
+
+        /************************************************************************************************************/
+    </script>
+    <style type="text/css">
+        label{
+            display: inline-block;
+            float: left;
+            clear: left;
+            width: 325px;
+            text-align:right;
+        }
+    </style>
+
+</head>
+<body>
+<div style="border-style:solid"; style="height:700px">
+    <form>
+        <label style="font-weight: bold; font-size: 40px; color: darkgoldenrod"> Student Info! </label>
+        <br><br><br><br>
+        <label>Student first name:</label><input type="text" id="first">
+        <br><br>
+        <label>Student last name:</label><input type="text" id="last">
+        <br><br>
+        <label>Student ID:</label><input max="6" type="text" id="idNum">
+        <br><br>
+        <label>Mailing Address:</label><input rows=10 cols="50" type="text" id="addy">
+        <br><br>
+        <label>Phone number:</label><input max="10" type="tel" id="tele">
+        <br><br>
+        <label>Email:</label><input type="email" id="mail">
+        <br><br><br>
+
+        <label>
+            <input type="button" value="Add" onclick="addIt()">
+            <input type="button" value="Find" onclick="findIt()">
+            <input type="button" value="Update" onclick="updIt()">
+            <input type="button" value="Delete" onclick="removeIt()">
+        </label>
+
+        <div>
+
+        </div>
+        <br><br><br>
+
+        <div id="findOut" style="background:lightgray"></div>
+
+    </form>
+</div>
+</body>
+</html>
